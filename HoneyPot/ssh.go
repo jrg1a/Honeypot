@@ -11,6 +11,25 @@ import (
 	"golang.org/x/crypto/ssh"
 )
 
+func StartSSHServer() {
+	listener, err := net.Listen("tcp", "0.0.0.0:22")
+	if err != nil {
+		log.Fatalf("Failed to listen on port 22: %v", err)
+	}
+
+	log.Println("Starting SSH server on port 22...")
+
+	for {
+		nConn, err := listener.Accept()
+		if err != nil {
+			log.Printf("Failed to accept incoming connection: %v", err)
+			continue
+		}
+
+		go handleSSHConnection(nConn)
+	}
+}
+
 var ErrUnauthorized = errors.New("unauthorized")
 
 func handleSSHConnection(nConn net.Conn) {
