@@ -7,7 +7,7 @@ import (
 )
 
 func StartFTPServer() {
-	listener, err := net.Listen("tcp", "0.0.0.0:21")
+	listener, err := net.Listen("tcp", "localhost:20021")
 	if err != nil {
 		log.Fatalf("Failed to listen on port 21: %v", err)
 	}

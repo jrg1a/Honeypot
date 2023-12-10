@@ -12,7 +12,7 @@ import (
 )
 
 func StartSSHServer() {
-	listener, err := net.Listen("tcp", "0.0.0.0:22")
+	listener, err := net.Listen("tcp", "localhost:20022")
 	if err != nil {
 		log.Fatalf("Failed to listen on port 22: %v", err)
 	}
@@ -107,6 +107,14 @@ func handleChannelSession(channel ssh.Channel) {
 
 	var sessionCommands []string
 
+	// Map of commands to responses
+	commandResponses := map[string]string{
+		"ls":     "file1.txt\nfile2.txt\n",
+		"pwd":    "/home/user\n",
+		"whoami": "user\n",
+		// Add more commands and responses here
+	}
+
 	for {
 		data := make([]byte, 256)
 		n, err := channel.Read(data)
@@ -121,7 +129,10 @@ func handleChannelSession(channel ssh.Channel) {
 		command := string(data[:n])
 		sessionCommands = append(sessionCommands, command)
 		log.Printf("Command run: %s", command)
-		response := "command not found\n"
+		response, ok := commandResponses[command]
+		if !ok {
+			response = "command not found\n"
+		}
 		channel.Write([]byte(response))
 		channel.Write([]byte(shell))
 	}
