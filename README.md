@@ -23,14 +23,14 @@ These instructions will get you a copy of the project up and running on your loc
 Once the servers are running, they will start listening for connections:
 
 - The HTTP server starts on port 8080.
-- The SSH server starts on port 22.
-- The FTP server starts on port 21.
+- The SSH server starts on specified ports.
+- The FTP server starts on specified ports.
 
 All login attempts to the SSH and FTP servers are logged and rejected. The HTTP server logs all requests to a SQLite database.
 
 ## Contributing
 
-Please read `CONTRIBUTING.md` for details on our code of conduct, and the process for submitting pull requests to us.
+Please read `CONTRIBUTING.md` for details on our code of conduct, and the process for submitting pull requests.
 
 ## License
 
